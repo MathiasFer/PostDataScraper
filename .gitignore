@@ -1,2 +1,6 @@
 auth.json
 venv/
+*.xlsx
+__pycache__/
+*.csv
+*.pyc
