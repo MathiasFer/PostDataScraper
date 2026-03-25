@@ -24,7 +24,7 @@ def validar_existencia_playwright_batch(shortcodes, tipo="post", auth_file="auth
     resultados = {}
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)  # Mantiene el comportamiento previo
+        browser = p.chromium.launch(headless=True)  # Mantiene el comportamiento previo
         context = browser.new_context(storage_state=auth_file)
         page = context.new_page()
 

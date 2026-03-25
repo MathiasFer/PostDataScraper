@@ -35,8 +35,8 @@ def calculate_diff(real, scan):
         return 0
 
 def main():
-    input_file = 'input_posts.xlsx'
-    output_final = 'scraped_resultsV2.xlsx'
+    input_file = 'input_hidalgo_2.xlsx'
+    output_final = 'scraped_hidalgo_2.xlsx'
     
     if not os.path.exists(input_file):
         logging.error(f"No se encontró el archivo de entrada: {input_file}")
@@ -306,7 +306,7 @@ def main():
         if post_shortcodes_to_scrape:
             try:
                 with sync_playwright() as p:
-                    browser = p.chromium.launch(headless=False)
+                    browser = p.chromium.launch(headless=True)
                     context = browser.new_context(storage_state="auth.json")
                     page = context.new_page()
                     try:
@@ -327,7 +327,7 @@ def main():
         if reel_shortcodes_to_scrape:
             try:
                 with sync_playwright() as p:
-                    browser = p.chromium.launch(headless=False)
+                    browser = p.chromium.launch(headless=True)
                     context = browser.new_context(storage_state="auth.json")
                     page = context.new_page()
                     try:
