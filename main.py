@@ -35,8 +35,8 @@ def calculate_diff(real, scan):
         return 0
 
 def main():
-    input_file = 'input_hidalgo_2.xlsx'
-    output_final = 'scraped_hidalgo_2.xlsx'
+    input_file = 'colima_testeo.xlsx'
+    output_final = 'resultados_colima_testeo.xlsx'
     
     if not os.path.exists(input_file):
         logging.error(f"No se encontró el archivo de entrada: {input_file}")
@@ -44,7 +44,7 @@ def main():
 
     logging.info(f"Leyendo archivo {input_file}...")
     try:
-        df = pd.read_excel(input_file)
+        df = pd.read_excel(input_file, dtype={'Id Publicación': str})
     except Exception as e:
         logging.error(f"Error al leer el Excel: {e}")
         return
@@ -150,6 +150,9 @@ def main():
         results_sorted = sorted(current_results, key=lambda x: x.get('index_original', 0))
         output_df = pd.DataFrame(results_sorted)
 
+        if 'Id Publicación' in output_df.columns:
+            output_df['Id Publicación'] = output_df['Id Publicación'].astype(str)
+
         with pd.ExcelWriter(output_final, engine='openpyxl') as writer:
             output_df.drop(columns=['__inconsistent__', 'index_original']).to_excel(
                 writer, index=False, sheet_name='Comparativa'
@@ -176,7 +179,7 @@ def main():
         try:
             for _, row in user_df.iterrows():
                 try:
-                    id_publicacion = row.get('Id Publicación', '')
+                    id_publicacion = str(row.get('Id Publicación', '')).split('.')[0] 
                     cuenta = str(row.get('Cuenta', ''))
                     tipo = str(row.get('Tipo publicación', ''))
                     texto = str(row.get('Texto', ''))
